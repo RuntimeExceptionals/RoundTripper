@@ -18,24 +18,27 @@
     <body>
     
     <div class="content fill-height">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">                    
+                <form class="navbar-form navbar-left" role="search">
+                    <div class="form-group">
+                        <input id="autocomplete" class="form-control" placeholder="Enter your address" onfocus="geolocate()" type="text" autocomplete="off">
+                    </div>
+                    <button id="add-address-btn" type="button" class="btn btn-default" onClick="addAddressToRoute()">
+                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Address
+                    </button> 
+                </form>
+            </div>
+        </nav>
+
+
         <div class="row-fluid fill-height">
             <div class="col-md-3" >
-                <div class="row-fluid">
-                    <div class="col-md-12" >
-                        <div id="add-address">
-                            <div id="locationField">
-                                <input id="autocomplete" placeholder="Enter your address" onfocus="geolocate()" type="text" autocomplete="off">
-                                <button id="add-address-btn" type="button" class="btn btn-default" onClick="addAddressToRoute()" >
-                                   <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Address
-                                </button> 
-                            </div>
-                        </div>
-                    </div>
+                <div id="route-container">
+
                 </div>
-                <div class="row-fluid">
-                    <div class="col-md-12" id="route-container" >
-                    
-                    </div>
+                <div id="weather-container">
+
                 </div>
             </div>
 
