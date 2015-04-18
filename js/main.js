@@ -36,8 +36,28 @@ function initialize() {
     directionsDisplay = new google.maps.DirectionsRenderer();
     directionsDisplay.setMap(map);
 
-	//Add event listener to "Add Address" button
+	//Add event listeners 
 	$(document).on("click", "#add-address-btn", addAddressToRoute);
+	$(document).on("click", "#should-optimize", updateShouldOptimize);
+	$(document).on("click", "#round-trip", updateRoundTrip);
+}
+
+function updateShouldOptimize(){
+	if ($('#should-optimize').is(':checked')){
+		route.optimize = true;
+	}else{
+		route.optimize = false;
+	}
+	updateRoute();
+}
+
+function updateRoundTrip(){
+	if ($('#round-trip').is(':checked')){
+		route.roundTrip = true;
+	}else{
+		route.roundTrip = false;
+	}
+	updateRoute();
 }
 
 function recenterMap(position){
