@@ -15,3 +15,12 @@ html, body {
     min-height: 100%;
     display: block;
 }
+
+#weather-container {
+    display: none; /* enabled later */
+    padding-top: 50px;
+}
+
+#weather-title {
+    text-transform: capitalize;
+}

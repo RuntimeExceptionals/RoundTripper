@@ -123,10 +123,10 @@ function addAddressToRoute(){
 
 	if (is_new_place){
 		route.places.push(place);
+        updateWeather(place.geometry.location.lat(), place.geometry.location.lng());
 	}
 
 	updateRoute();
-
 }
 
 function updateRoute(){
@@ -186,6 +186,18 @@ function updateMap(){
     });
 }
 
+function updateWeather(lat, lon) {
+    $("#weather-container").show();
+
+    Weather.options.unit = "imperial";
+    Weather.options.APPID = "a7365d3a55be3fd552fc1d4aba4c84b1";
+    Weather.byLatLng(lat, lon).getCurrent(function(current) {
+        console.log(current.getConditions());
+        $("#weather-title").text(current.getConditions());
+        $("#weather-image").attr("src", current.getIcon());
+    });
+}
+
 function moveAddressDown(loc){
     if (loc == route.places.length - 1) {
     	return; // already last.
@@ -215,10 +227,3 @@ function moveAddressUp(loc){
 
     updateRoute();
 }
-
-
-
-
-
-
-
