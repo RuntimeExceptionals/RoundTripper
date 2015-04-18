@@ -11,6 +11,7 @@ var route = {
     "roundTrip": true,
 }
 
+
 function initialize() {
     // Initialize the map.
     var geolocation = new google.maps.LatLng(30.6014, -96.3144)
@@ -52,7 +53,8 @@ function initialize() {
      	off: 'One Way'
 	});
 	$("#round-trip").change(updateRoundTrip);
-
+   
+    initialize_route()
 }
 
 function updateShouldOptimize(){
@@ -70,7 +72,6 @@ function updateRoundTrip(){
 	}else{
 		route.roundTrip = false;
 	}
-	updateRoute();
 }
 
 function recenterMap(position){
@@ -144,7 +145,8 @@ function updateRoute(){
         place +=      '<span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>'
         place +=    '</button>';
         place +=   '</div>'
-    	place +=   '<span class="address">' + route["places"][i].adr_address + '</span>';	
+    	place +=   '<span class="address">' + route["places"][i].adr_address + '  </span>';
+        place +=   '<span class="glyphicon glyphicon-remove-sign" aria-hidden="true" onclick="removeAddress(' + i +')"></span>'
     	place += '</div>';
 
     	route_html += place;
@@ -154,6 +156,11 @@ function updateRoute(){
 
     updateMap();
 }
+
+function removeAddress(loc){
+    route.places.splice(loc,1);
+    updateRoute();
+};
 
 function updateMap(){
     origin = route.places[0].formatted_address;
