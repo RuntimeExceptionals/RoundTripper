@@ -90,10 +90,10 @@ function addAddressToRoute(){
 
 	if (is_new_place){
 		route.places.push(place);
+        updateWeather(place.geometry.location.lat(), place.geometry.location.lng());
 	}
 
 	updateRoute();
-
 }
 
 function updateRoute(){
