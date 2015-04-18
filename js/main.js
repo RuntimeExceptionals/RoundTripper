@@ -38,8 +38,21 @@ function initialize() {
 
 	//Add event listeners 
 	$(document).on("click", "#add-address-btn", addAddressToRoute);
-	$(document).on("click", "#should-optimize", updateShouldOptimize);
-	$(document).on("click", "#round-trip", updateRoundTrip);
+
+	//setup awesome toggles.
+	$("#should-optimize").bootstrapToggle({
+		on: 'Fastest Route',
+     	off: 'Custom Route'
+	});
+	$("#should-optimize").change(updateShouldOptimize);
+
+
+	$("#round-trip").bootstrapToggle({
+		on: 'Round Trip',
+     	off: 'One Way'
+	});
+	$("#round-trip").change(updateRoundTrip);
+
 }
 
 function updateShouldOptimize(){
@@ -179,6 +192,7 @@ function moveAddressDown(loc){
     } 
 
 	route.optimize = false;
+	$('#should-optimize').bootstrapToggle('off');
 
 	var temp = route.places[loc];
     route.places[loc] = route.places[loc + 1];
@@ -193,7 +207,8 @@ function moveAddressUp(loc){
     } 
 
 	route.optimize = false;
-
+	$('#should-optimize').bootstrapToggle('off');
+	
 	var temp = route.places[loc];
     route.places[loc] = route.places[loc - 1];
     route.places[loc - 1] = temp;
