@@ -4,21 +4,24 @@ $(document).ready(function() {
     initialize();
 });
 
-var placeSearch, autocomplete;
+var map, placeSearch, autocomplete, directionsService, directionsDisplay;
 var route = {
-	"places": [],
-	"optimize": false,
+    "places": [],
+    "optimize": false,
+    "roundTrip": true,
 }
 
 function initialize() {
     // Initialize the map.
+    var geolocation = new google.maps.LatLng(30.6014, -96.3144)
+
     var mapCanvas = document.getElementById('map-canvas');
     var mapOptions = {
         zoom: 8,
-        center: new google.maps.LatLng(44.5403, -78.5463),
+        center: geolocation,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     }
-    var map = new google.maps.Map(mapCanvas, mapOptions);
+    map = new google.maps.Map(mapCanvas, mapOptions);
 
     // Initialize address autocomplete
     autocomplete = new google.maps.places.Autocomplete(
@@ -28,8 +31,21 @@ function initialize() {
 	  // populate the address fields in the form.
 	  google.maps.event.addListener(autocomplete, 'place_changed', fillInAddress);
 
+    directionsService = new google.maps.DirectionsService();
+
+    directionsDisplay = new google.maps.DirectionsRenderer();
+    directionsDisplay.setMap(map);
+
 	//Add event listener to "Add Address" button
 	$(document).on("click", "#add-address-btn", addAddressToRoute);
+}
+
+
+function recenterMap(position){
+	console.log("this is happening")
+
+	geolocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+	map.panTo(geolocation);
 }
 
 function fillInAddress() {
@@ -45,6 +61,7 @@ function geolocate() {
     navigator.geolocation.getCurrentPosition(function(position) {
       var geolocation = new google.maps.LatLng(
           position.coords.latitude, position.coords.longitude);
+      map.setCenter(geolocation);
       var circle = new google.maps.Circle({
         center: geolocation,
         radius: position.coords.accuracy
@@ -100,4 +117,42 @@ function updateRoute(){
     updateMap();
 }
 
-function updateMap(){};
+function updateMap(){
+    origin = route.places[0].formatted_address;
+    destination = route.places[route.places.length-1].formatted_address;
+    if (route.roundTrip) { 
+    	destination = route.places[0].formatted_address
+    };
+
+    waypoints = [];
+
+    // Add waypoints to list without origin and destinations. 
+    num_waypoints = route.places.length - 1
+    if (route.roundTrip) {
+    	num_waypoints += 1
+    } 
+    for(var i = 1; i < num_waypoints; i ++){
+    	waypoints.push({location: route.places[i].formatted_address, stopover: true});
+    }
+
+    var request = {
+    	origin: origin,
+    	destination: destination,  
+    	optimizeWaypoints: route.optimize,
+    	waypoints: waypoints,
+    	travelMode: google.maps.TravelMode.DRIVING,
+    };
+
+    directionsService.route(request, function(response, status) {
+    	directionsDisplay.setDirections(response);
+    });
+
+};
+
+
+
+
+
+
+
+
