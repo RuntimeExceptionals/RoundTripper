@@ -40,7 +40,6 @@ function initialize() {
 	$(document).on("click", "#add-address-btn", addAddressToRoute);
 }
 
-
 function recenterMap(position){
 	console.log("this is happening")
 
@@ -70,7 +69,6 @@ function geolocate() {
     });
   }
 }
-
 
 //Add address to the Route object and update 
 function addAddressToRoute(){
@@ -104,11 +102,18 @@ function updateRoute(){
     route_html = "";
 
     for(var i = 0; i < route["places"].length; i++){
-    	place = '<div id = "' + route["places"][i].place_id + '" class="place">';
-    	place += '<span class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span>';
-    	place += '<span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>';
-    	place += '<span class="address">' + route["places"][i].adr_address + '</span>';
+        place =  '<div id = "place_' + route["places"][i].place_id + '" class="place">';
+        place +=  '<div class="btn-group btn-group-xs" role="group" aria-label="...">';
+        place +=    '<button type="button" class="btn btn-default" onclick="moveAddressUp(' + i + ')"">';
+        place +=      '<span class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span>';
+        place +=    '</button>';
+        place +=    '<button type="button" class="btn btn-default" onclick="moveAddressDown(' + i + ')"">';
+        place +=      '<span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>'
+        place +=    '</button>';
+        place +=   '</div>'
+    	place +=   '<span class="address">' + route["places"][i].adr_address + '</span>';	
     	place += '</div>';
+
     	route_html += place;
     }
 
@@ -146,9 +151,35 @@ function updateMap(){
     directionsService.route(request, function(response, status) {
     	directionsDisplay.setDirections(response);
     });
+}
 
-};
+function moveAddressDown(loc){
+    if (loc == route.places.length - 1) {
+    	return; // already last.
+    } 
 
+	route.optimize = false;
+
+	var temp = route.places[loc];
+    route.places[loc] = route.places[loc + 1];
+    route.places[loc + 1] = temp;
+
+    updateRoute();
+}
+
+function moveAddressUp(loc){
+    if (loc == 0) {
+    	return; // already last.
+    } 
+
+	route.optimize = false;
+
+	var temp = route.places[loc];
+    route.places[loc] = route.places[loc - 1];
+    route.places[loc - 1] = temp;
+
+    updateRoute();
+}
 
 
 
