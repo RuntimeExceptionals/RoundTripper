@@ -54,7 +54,6 @@ function initialize() {
 	});
 	$("#round-trip").change(updateRoundTrip);
    
-    initialize_route()
 }
 
 function updateShouldOptimize(){
@@ -72,6 +71,7 @@ function updateRoundTrip(){
 	}else{
 		route.roundTrip = false;
 	}
+    updateRoute();
 }
 
 function recenterMap(position){
