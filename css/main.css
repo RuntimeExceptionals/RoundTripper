@@ -15,3 +15,7 @@ html, body {
     min-height: 100%;
     display: block;
 }
+
+#weather-container {
+    padding-top: 50px;
+}
