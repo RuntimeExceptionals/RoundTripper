@@ -119,12 +119,12 @@ function updateRoute(){
 
 function updateMap(){
     origin = route.places[0].formatted_address;
-    destination = route.places[route.places.length-1];
+    destination = route.places[route.places.length-1].formatted_address;
     if (route.roundTrip) { 
     	destination = route.places[0].formatted_address
     };
 
-    waypoints = [];:wq
+    waypoints = [];
 
     // Add waypoints to list without origin and destinations. 
     num_waypoints = route.places.length - 1
@@ -134,7 +134,7 @@ function updateMap(){
     for(var i = 1; i < num_waypoints; i ++){
     	waypoints.push({location: route.places[i].formatted_address, stopover: true});
     }
-    
+
     var request = {
     	origin: origin,
     	destination: destination,  
