@@ -5,7 +5,10 @@ $(document).ready(function() {
 });
 
 var placeSearch, autocomplete;
-
+var route = {
+	"places": [],
+	"optimize": false,
+}
 
 function initialize() {
     // Initialize the map.
@@ -51,6 +54,8 @@ function geolocate() {
   }
 }
 
+
+//Add address to the Route object and update 
 function addAddressToRoute(){
 	var place = autocomplete.getPlace();
 
@@ -59,5 +64,40 @@ function addAddressToRoute(){
 		alert("Unable to locate provided address");
 		return;
 	}
-	
+
+	is_new_place = true;
+	for(var i = 0; i < route["places"].length; i++){
+		if (route.places[i].place_id == place.place_id) { 
+			is_new_place = false; 
+			break;
+		}
+	}
+
+	if (is_new_place){
+		route.places.push(place);
+	}
+
+	updateRoute();
+
 }
+
+function updateRoute(){
+	route_container = $("#route-container");
+
+    route_html = "";
+
+    for(var i = 0; i < route["places"].length; i++){
+    	place = '<div id = "' + route["places"][i].place_id + '" class="place">';
+    	place += '<span class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span>';
+    	place += '<span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>';
+    	place += '<span class="address">' + route["places"][i].adr_address + '</span>';
+    	place += '</div>';
+    	route_html += place;
+    }
+
+    route_container.html(route_html);
+
+    updateMap();
+}
+
+function updateMap(){};
