@@ -17,5 +17,10 @@ html, body {
 }
 
 #weather-container {
+    display: none; /* enabled later */
     padding-top: 50px;
+}
+
+#weather-title {
+    text-transform: capitalize;
 }
