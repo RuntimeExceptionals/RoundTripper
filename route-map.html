@@ -22,11 +22,17 @@
             <div class="container-fluid">                    
                 <form class="navbar-form navbar-left" role="search">
                     <div class="form-group">
-                        <input id="autocomplete" class="form-control" placeholder="Enter your address" onfocus="geolocate()" type="text" autocomplete="off">
+                        <div class="input-group">
+                            <input id="autocomplete" class="form-control" placeholder="Enter an address" onfocus="geolocate()" type="text" autocomplete="off">
+                        <span class="input-group-btn">
+                            <button id="add-address-btn" type="button" class="btn btn-default" onClick="addAddressToRoute()">
+                                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Address
+                             </button>
+                         </span>
+                     </div>
+                    <label for="should-optimize">Optimize: </label><input id="should-optimize" type="checkbox" checked/>
+                    <label for="round-trip">Round Trip: </label><input id="round-trip" type="checkbox" checked/>
                     </div>
-                    <button id="add-address-btn" type="button" class="btn btn-default" onClick="addAddressToRoute()">
-                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Address
-                    </button> 
                 </form>
             </div>
         </nav>
