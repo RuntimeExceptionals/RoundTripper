@@ -24,3 +24,7 @@ html, body {
 #weather-title {
     text-transform: capitalize;
 }
+
+.address {
+    margin-left: 1em;
+}
