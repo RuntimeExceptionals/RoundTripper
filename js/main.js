@@ -53,6 +53,8 @@ function initialize() {
      	off: 'One Way'
 	});
 	$("#round-trip").change(updateRoundTrip);
+
+  $("#open-route-in-maps").hide();
    
 }
 
@@ -162,6 +164,30 @@ function removeAddress(loc){
     updateRoute();
 };
 
+
+function generate_directions_url(){
+   var computed_route = directionsDisplay.getDirections().routes[0].legs;
+   var directions = [];
+   directions.push(computed_route[0].start_address.replace(/\s/g, '+').replace(/,/g, ''));
+   for(var i = 0; i < computed_route.length; i++){
+       directions.push(computed_route[i].end_address.replace(/\s/g, '+').replace(/,/g, ''));
+   }
+   uri = directions.join('/');
+   //uri = "?saddr=" + directions[0];
+   //uri += "&daddr=" + directions[directions.length - 1];
+   //for (var i = 1; i < directions.length - 1; i++){
+   //    uri += "+to:" + directions[i];
+   //}
+
+   return "www.google.com/maps/dir/" + uri;
+
+}
+
+function open_route_in_maps(){
+   var url = generate_directions_url();
+   window.open("https://" + url);
+}
+
 function updateMap(){
     origin = route.places[0].formatted_address;
     destination = route.places[route.places.length-1].formatted_address;
@@ -191,6 +217,9 @@ function updateMap(){
     directionsService.route(request, function(response, status) {
     	directionsDisplay.setDirections(response);
     });
+    if(num_waypoints > 1){
+      $("#open-route-in-maps").show();
+    }
 }
 
 function updateWeather(lat, lon) {
