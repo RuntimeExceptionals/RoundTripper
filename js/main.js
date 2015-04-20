@@ -54,8 +54,12 @@ function initialize() {
 	});
 	$("#round-trip").change(updateRoundTrip);
 
-  $("#open-route-in-maps").hide();
+	$("#open-route-in-maps").hide();
    
+	$("#address-entry").submit(function() {
+		addAddressToRoute();
+		return false;
+	});
 }
 
 function updateShouldOptimize(){
@@ -130,6 +134,9 @@ function addAddressToRoute(){
 	}
 
 	updateRoute();
+
+  // Clear the input field.
+  $("#autocomplete").val("");
 }
 
 function updateRoute(){
