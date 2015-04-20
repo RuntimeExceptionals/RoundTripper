@@ -130,6 +130,9 @@ function addAddressToRoute(){
 	}
 
 	updateRoute();
+
+  // Clear the input field.
+  $("#autocomplete").val("");
 }
 
 function updateRoute(){
